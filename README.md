@@ -15,6 +15,7 @@ Usage:
   mosaic gather [options] <dir>...
   mosaic init [options] <project-name>
   mosaic post [options] <project-id> <gathered-mosaic-json>
+  mosaic map-paths <gathered-mosaic-json> <map-file>
 
 Run each command without any arguments (e.g. "mosaic bam") to see what [options] are available.
 ```
