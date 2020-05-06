@@ -37,6 +37,11 @@ Next, we set connection parameters for posting to a running Mosaic instance.
 `$ export MOSAIC_USERNAME=slichtenberg@frameshift.io`
 `$ export MOSAIC_PASSWORD='my$password'`
 
+Alternatively, when using `mosaic post` you can set `MOSAIC_TOKEN` instead of `MOSAIC_USERNAME` and `MOSAIC_PASSWORD`.
+The token is an auth token that is provided by Mosaic.
+`$ export MOSAIC_URL=https://0.0.0.0:3000/`
+`$ export MOSAIC_TOKEN=be0ab7114beb70c14832a0c8de8ed708f2c1a5b8`
+
 Now, we create a new project on Mosaic (this step is optional; the project can already exist). The `init` command returns a project id for us to use if the creation was successful.
 
 ```
@@ -95,5 +100,4 @@ If you're dealing with S3 files, you need the `aws` executable as well.
 2. Run `go generate`. This will cause fileb0x to produce a `static` folder.
    If this step does not work, you might need to update Go. Try a version >= go1.13.
 3. Run `go build`. This will produce a `mosaic` executable. 
-
 
