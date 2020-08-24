@@ -15,7 +15,7 @@ Usage:
   mosaic gather [options] <dir>...
   mosaic init [options] <project-name>
   mosaic post [options] <project-id> <gathered-mosaic-json>
-  mosaic map-paths <gathered-mosaic-json> <map-file>
+  mosaic map-paths <gathered-mosaic-json> <map-file></map-file>
 
 Run each command without any arguments (e.g. "mosaic bam") to see what [options] are available.
 ```
@@ -37,6 +37,11 @@ Next, we set connection parameters for posting to a running Mosaic instance.
 `$ export MOSAIC_USERNAME=slichtenberg@frameshift.io`
 `$ export MOSAIC_PASSWORD='my$password'`
 
+Alternatively, when using `mosaic post` you can set `MOSAIC_TOKEN` instead of `MOSAIC_USERNAME` and `MOSAIC_PASSWORD`.
+The token is an auth token that is provided by Mosaic.
+`$ export MOSAIC_URL=https://0.0.0.0:3000/`
+`$ export MOSAIC_TOKEN=be0ab7114beb70c14832a0c8de8ed708f2c1a5b8`
+
 Now, we create a new project on Mosaic (this step is optional; the project can already exist). The `init` command returns a project id for us to use if the creation was successful.
 
 ```
@@ -50,7 +55,7 @@ Now, we post the data to this project:
 And we're done!
 
 ## Details / Common issues
-+ You'll need to set `LD_LIBRARY_PATH=<your-htslib-1.9-path>`. htslib should be built with `./configure --enable-libcurl` if you need to access AWS files.
++ You'll need to set `LD_LIBRARY_PATH=<your-htslib-1.10-path>`. htslib should be built with `./configure --enable-libcurl` if you need to access AWS files.
 + If using BED files, check that the chromosome names match. For instance, if the BED file has `chr1` but your input files have `1`, the CLI will error out. 
 + The `-d` flag passes an output directory.
 + The use of `http://s3.amazonaws.com/` instead of `s3://` tells the tool to not try to use private credentials, and call the `aws` tool with `--no-sign-request`. This is an unfortunate artifact of the fact that samtools, bcftools, and aws have different conventions for how they handle public S3 files. In the future, this might be accomplished with a CLI flag instead.
@@ -84,7 +89,8 @@ rm bam_files.txt
 
 ## Dependencies
 
-You need at least `samtools` and `bcftools` executables, which the CLI calls out to.
+You need at least `samtools` and `bcftools` executables, which the CLI calls out to. You will
+also need htslib version 1.10 which is used by mosdepth.
 
 If you're dealing with S3 files, you need the `aws` executable as well.
 
@@ -95,5 +101,4 @@ If you're dealing with S3 files, you need the `aws` executable as well.
 2. Run `go generate`. This will cause fileb0x to produce a `static` folder.
    If this step does not work, you might need to update Go. Try a version >= go1.13.
 3. Run `go build`. This will produce a `mosaic` executable. 
-
 
