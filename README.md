@@ -88,8 +88,9 @@ rm bam_files.txt
 ```
 ## S3 compatible object storage
 
-If using S3 compatible object storage, you will need to pass additional options to `mosaic bam` and `mosaic vcf`.
-Both of these commands take in -e and -p params which are the S3 endpoint URL and S3 profile respectively.
+If using S3 compatible object storage, you will need to pass additional options to `mosaic bam`, `mosaic vcf`, and `mosaic post`.
+For `mosaic bam` and `mosaic vcf` you will need to pass the -e and -p params which are the S3 endpoint URL and S3 profile respectively
+while for `mosaic post` just the -e param needs to be passed.
 In order to use these options correctly, the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables
 must be set and a file, ~/.s3cfg, must also exist. The .s3cfg file should be formatted as shown below:
 ```
