@@ -130,7 +130,7 @@ export MOSAIC_TOKEN=authtoken123
 export AWS_ACCESS_KEY_ID=test123
 export AWS_SECRET_ACCESS_KEY=test123
 mosaic init test_project
-mosaic bam -r 37 -e https://test.com/ -p test_profile sample_id https://test.comj/file.bam
+mosaic bam -r 37 -e https://test.com/ -p test_profile sample_id https://test.com/file.bam
 mosaic gather .
 mosaic post -e https://test.com/ -i project_id gathered.mosaic.json.gz
 ```
