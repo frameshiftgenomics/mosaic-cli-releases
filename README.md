@@ -86,9 +86,30 @@ done < bam_files.txt
 
 rm bam_files.txt
 ```
+
+## S3 Files
+In addition to local files, Mosaic CLI works with files stored on S3. If the S3 bucket is public and does not require
+credentials to access, you can format the URLs as http://s3.amazonaws.com/\<bucket-name>/\<file-name> and then use the CLI
+as if you were working with local files. If the bucket is private, you must set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+environment variables in order for Mosaic CLI to access the files. In order for Mosaic to be able to access the files, you must
+include the -i flag when running `mosaic post`. This will attach the S3 credentials in the request that gets sent to Mosaic.
+
+Example:
+```
+export MOSAIC_URL=https://0.0.0.0:3000/
+export MOSAIC_TOKEN=authtoken123
+export AWS_ACCESS_KEY_ID=test123
+export AWS_SECRET_ACCESS_KEY=test123
+mosaic init test_project
+mosaic bam -r 37 sample_id s3://bucket/file.bam
+mosaic gather .
+mosaic post -i project_id gathered.mosaic.json.gz
+```
+
 ## S3 compatible object storage
 
-If using S3 compatible object storage, you will need to pass additional options to `mosaic bam`, `mosaic vcf`, and `mosaic post`.
+In addition to normal S3 files, Mosaic CLI works with S3 compatible object storage files.
+For Mosaic CLI to function correctly with these files, you will need to pass additional options to `mosaic bam`, `mosaic vcf`, and `mosaic post`.
 For `mosaic bam` and `mosaic vcf` you will need to pass the -e and -p params which are the S3 endpoint URL and S3 profile respectively
 while for `mosaic post` just the -e param needs to be passed.
 In order to use these options correctly, the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables
@@ -101,6 +122,18 @@ host_base = https://test.com/
 ```
 
 In this case, the -e option would be `https://test.com/` and the -p option would be `test_profile`
+
+Example:
+```
+export MOSAIC_URL=https://0.0.0.0:3000/
+export MOSAIC_TOKEN=authtoken123
+export AWS_ACCESS_KEY_ID=test123
+export AWS_SECRET_ACCESS_KEY=test123
+mosaic init test_project
+mosaic bam -r 37 -e https://test.com/ -p test_profile sample_id https://test.comj/file.bam
+mosaic gather .
+mosaic post -e https://test.com/ -i project_id gathered.mosaic.json.gz
+```
 
 ## Dependencies
 
