@@ -16,6 +16,7 @@ Usage:
   mosaic init [options] <project-name>
   mosaic post [options] <project-id> <gathered-mosaic-json>
   mosaic map-paths <gathered-mosaic-json> <map-file></map-file>
+  mosaic experiment [options] <project-id> <experiment-name> 
 
 Run each command without any arguments (e.g. "mosaic bam") to see what [options] are available.
 ```
@@ -46,7 +47,7 @@ Now, we create a new project on Mosaic (this step is optional; the project can a
 
 ```
 $ mosaic init my_project
-2
+project_id 2
 ```
 
 Now, we post the data to this project: 
@@ -135,6 +136,16 @@ mosaic gather .
 mosaic post -e https://test.com/ -i project_id gathered.mosaic.json.gz
 ```
 
+## Experiments
+
+The CLI allows users to create experiments for a project by using the `mosiac experiment` command. This will return an
+experiment's ID which you can then use in `mosaic bam` and `mosaic vcf` with the -x parameter. An example is below
+
+```
+EXP_ID=$(mosaic experiment 1 test-experiment | cut -d ' ' -f 2)
+mosaic bam -x $EXP_ID sample_id bam_url
+```
+
 ## Dependencies
 
 You need at least `samtools` and `bcftools` executables, which the CLI calls out to. You will
@@ -149,4 +160,5 @@ If you're dealing with S3 files, you need the `aws` executable as well.
 2. Run `go generate`. This will cause fileb0x to produce a `static` folder.
    If this step does not work, you might need to update Go. Try a version >= go1.13.
 3. Run `go build`. This will produce a `mosaic` executable. 
+
 
