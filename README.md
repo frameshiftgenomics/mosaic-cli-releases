@@ -55,6 +55,21 @@ Now, we post the data to this project:
 
 And we're done!
 
+## Using a config file
+Instead of using environment variables, some commands offer the option of using the -c or --config option. With this option you will pass a filename
+of a config file instead of using environment variables. For example, you could have  a file `config.txt` that looks like the following:
+```
+MOSAIC_URL=https://0.0.0.0:3000/
+MOSAIC_USERNAME=slichtenberg@frameshift.io
+MOSAIC_PASSWORD=my$password
+```
+
+Then when calling MosaicCLI you use the following options:
+```
+$ mosaic init -c config.txt my_project
+project_id 2
+```
+
 ## Details / Common issues
 + You'll need to set `LD_LIBRARY_PATH=<your-htslib-1.10-path>`. htslib should be built with `./configure --enable-libcurl` if you need to access AWS files.
 + If using BED files, check that the chromosome names match. For instance, if the BED file has `chr1` but your input files have `1`, the CLI will error out. 
@@ -92,7 +107,7 @@ rm bam_files.txt
 In addition to local files, Mosaic CLI works with files stored on S3. If the S3 bucket is public and does not require
 credentials to access, you can format the URLs as http://s3.amazonaws.com/\<bucket-name>/\<file-name> and then use the CLI
 as if you were working with local files. If the bucket is private, you must set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-environment variables in order for Mosaic CLI to access the files. In order for Mosaic to be able to access the files, you must
+variables in the environment or config file in order for Mosaic CLI to access the files. In order for Mosaic to be able to access the files, you must
 include the -i flag when running `mosaic post`. This will attach the S3 credentials in the request that gets sent to Mosaic.
 
 Example:
@@ -113,8 +128,8 @@ In addition to normal S3 files, Mosaic CLI works with S3 compatible object stora
 For Mosaic CLI to function correctly with these files, you will need to pass additional options to `mosaic bam`, `mosaic vcf`, and `mosaic post`.
 For `mosaic bam` and `mosaic vcf` you will need to pass the -e and -p params which are the S3 endpoint URL and S3 profile respectively
 while for `mosaic post` just the -e param needs to be passed.
-In order to use these options correctly, the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables
-must be set and a file, ~/.s3cfg, must also exist. The .s3cfg file should be formatted as shown below:
+In order to use these options correctly, the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY variables
+must be set in the environement or in the config file and an additional file, ~/.s3cfg, must also exist. The .s3cfg file should be formatted as shown below:
 ```
 [test_profile]
 access_key = ****
